@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:jiffy/jiffy.dart';
+import 'package:one_touch/model/Notifications.dart';
 
 class NotificationCard extends StatelessWidget {
-  final Map item;
+  final Item item;
   const NotificationCard({Key? key, required this.item}) : super(key: key);
 // This returns time ago from now
 //   getfromNowTime(date) {
@@ -34,16 +35,16 @@ class NotificationCard extends StatelessWidget {
               Container(
                   width: MediaQuery.of(context).size.width * 0.5,
                   child: Text(
-                    item["title"],
+                    item.title,
                     style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
                   )),
               Text(
-                Jiffy(item["created"]).fromNow(),
+                Jiffy(item.created, "yyyy-MM-dd").fromNow(),
                 style: TextStyle(color: Color(0xff999DA0), fontSize: 14),
               )
             ],
           ),
-          Text(item["short_description"],
+          Text(item.shortDescription,
               style: TextStyle(color: Color(0xff999DA0), fontSize: 14))
         ]),
       ),

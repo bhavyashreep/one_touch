@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:one_touch/Providers/HomeProvider.dart';
 import 'package:one_touch/Providers/MainProvider.dart';
 import 'package:one_touch/presentation/pages/Dashboard.dart';
 import 'package:one_touch/presentation/pages/Home.dart';
@@ -14,17 +15,14 @@ class OnBoardingScreen extends StatefulWidget {
 class _OnBoardingScreenState extends State<OnBoardingScreen> {
   @override
   initState() {
-   
-
     super.initState();
     // checkIsFirstInstalling();
     // fetchCategories();
   }
 
-
   @override
   Widget build(BuildContext context) {
-    var data = Provider.of<MainProvider>(context);
+    var data = Provider.of<HomeProvider>(context);
 
     return Scaffold(
         // appBar: AppBar(),
@@ -72,14 +70,20 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                   height: 60,
                   child: ElevatedButton(
                     onPressed: () {
-                       Provider.of<MainProvider>(context).fetchCategories();
+                      //  Provider.of<MainProvider>(context).fetchCategories();
                       data.setIsFirtInstalling();
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => Home(),
-                        ),
-                      );
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => Home(),
+                          ),
+                          (route) => false);
+                      // Navigator.pushAndRemoveUntil(
+                      //   context,
+                      //   MaterialPageRoute(
+                      //     builder: (context) => Home(),
+                      //   ),
+                      // );
                     },
                     child: const Text(
                       'Get Started',

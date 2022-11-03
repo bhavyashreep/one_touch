@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:one_touch/model/Classifieds.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ClassifiedsCard extends StatelessWidget {
-  final Map item;
+  final Item item;
   const ClassifiedsCard({Key? key, required this.item}) : super(key: key);
-  _makingPhoneCall() async {
+  _makingPhoneCall(phone) async {
     var url = Uri.parse("tel:9776765434");
     if (await canLaunchUrl(url)) {
       await launchUrl(url);
@@ -30,7 +31,6 @@ class ClassifiedsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-     
       decoration: BoxDecoration(
           border: Border(
         bottom:
@@ -48,7 +48,7 @@ class ClassifiedsCard extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(bottom: 5),
                     child: Text(
-                      "Sed ut perspiciatis unde omnis perspiciatis ",
+                      item.title,
                       style: TextStyle(fontWeight: FontWeight.w500),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
@@ -75,7 +75,7 @@ class ClassifiedsCard extends StatelessWidget {
         Row(
           children: [
             InkWell(
-                // onTap: () => openwhatsapp(context, item["whatsapp_number"]),
+                onTap: () => openwhatsapp(context, item.whatsapp),
                 child: Padding(
               padding: const EdgeInsets.only(right: 16),
               child: SvgPicture.asset(
@@ -84,7 +84,7 @@ class ClassifiedsCard extends StatelessWidget {
               ),
             )),
             InkWell(
-                // onTap: () => openwhatsapp(context, item["whatsapp_number"]),
+                onTap: () => _makingPhoneCall(item.phoneNumber),
                 child: SvgPicture.asset(
               "assets/icons/phone2.svg",
               width: 25,

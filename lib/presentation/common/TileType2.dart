@@ -3,14 +3,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:one_touch/model/Emergency.dart';
+
 import 'package:url_launcher/url_launcher.dart';
 
 class TileType2 extends StatelessWidget {
-  final Map item;
+  final Item item;
 
   const TileType2({Key? key, required this.item}) : super(key: key);
-  _makingPhoneCall() async {
-    var url = Uri.parse("tel:9776765434");
+  _makingPhoneCall(phone) async {
+    var url = Uri.parse("tel:$phone");
     if (await canLaunchUrl(url)) {
       await launchUrl(url);
     } else {
@@ -48,17 +50,16 @@ class TileType2 extends StatelessWidget {
                     placeholder: (context, url) =>
                         Image.asset("assets/images/default.png"),
                     imageUrl:
-                        "http://137.184.74.132/api/files/${item["@collectionId"]}/${item["id"]}/" +
-                            item["list_image"]),
+                        "http://137.184.74.132/api/files/${item.collectionId}/${item.id}/" +
+                            item.image),
               ),
-              decoration: BoxDecoration(
-                  color: Colors.red, borderRadius: BorderRadius.circular(8)),
+              decoration: BoxDecoration(borderRadius: BorderRadius.circular(8)),
             ),
             SizedBox(width: 10),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(item["name"]),
+                Text(item.name),
                 Row(
                   children: [
                     Icon(
@@ -67,7 +68,7 @@ class TileType2 extends StatelessWidget {
                       size: 20,
                     ),
                     Text(
-                      "Kakkanad, Kochi",
+                      item.location,
                       style: TextStyle(color: Color(0xff999DA0)),
                     )
                   ],
@@ -78,9 +79,9 @@ class TileType2 extends StatelessWidget {
         ),
         Row(
           children: [
-            item["phone_number"] != ""
+            item.phoneNumber != ""
                 ? InkWell(
-                    onTap: _makingPhoneCall,
+                    onTap:(){_makingPhoneCall(item.phoneNumber);} ,
                     child: const Icon(
                       Icons.phone,
                       size: 24,
@@ -91,8 +92,10 @@ class TileType2 extends StatelessWidget {
             const SizedBox(
               width: 20,
             ),
-            item["whatsapp_number"] != ""
-                ? InkWell(child: SvgPicture.asset("assets/icons/whatsapp.svg"))
+            item.whatsapp != ""
+                ? InkWell(
+                  onTap:(){openwhatsapp(context,item.whatsapp);},
+                  child: SvgPicture.asset("assets/icons/whatsapp.svg"))
                 : const SizedBox()
           ],
         )

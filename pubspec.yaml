@@ -41,10 +41,24 @@ dependencies:
   provider: ^6.0.3
   url_launcher: ^6.1.5
   jiffy: ^5.0.0
+  http: ^0.13.5
+  smooth_page_indicator: ^1.0.0+2
+  firebase_core: ^1.24.0
+  firebase_auth: ^3.4.2
+  cloud_firestore: ^3.5.1
+  image_picker: ^0.8.6
+  flutter_launcher_icons: ^0.10.0
+  # geolocator: ^9.0.2
+  
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/icons/icon.jpeg"
+  min_sdk_android: 21
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

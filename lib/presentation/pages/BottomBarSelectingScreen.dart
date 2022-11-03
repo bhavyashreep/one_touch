@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:one_touch/presentation/pages/Classifieds.dart';
+import 'package:one_touch/presentation/pages/Contacts.dart';
 import 'package:one_touch/presentation/pages/Dashboard.dart';
+import 'package:one_touch/presentation/pages/Emergency.dart';
+import 'package:one_touch/presentation/pages/News.dart';
 import 'package:one_touch/presentation/pages/Notifications.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -18,12 +21,10 @@ class _BottomBarSelectingScreenState extends State<BottomBarSelectingScreen> {
 
   final List<Widget> _chilren = [
     Dashboard(),
-    Dashboard(),
+    Emergency(),
     Notifications(),
-    Dashboard(),
+    Contacts(),
     Classifieds(),
-
-
   ];
 
   int _curr = 0;
@@ -52,22 +53,20 @@ class _BottomBarSelectingScreenState extends State<BottomBarSelectingScreen> {
           currentIndex: _currentIndex,
           items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(
-              activeIcon:Padding(
+              activeIcon: Padding(
                 padding: const EdgeInsets.only(top: 10),
                 child: Icon(
                   Icons.home,
                   size: 34,
                   color: Colors.grey[800],
-                  
                 ),
-              ) ,
+              ),
               icon: Padding(
                 padding: const EdgeInsets.only(top: 10),
                 child: Icon(
                   Icons.home,
                   size: 34,
                   color: Color.fromRGBO(79, 79, 79, 0.24),
-                  
                 ),
               ),
               label: '',
@@ -75,26 +74,32 @@ class _BottomBarSelectingScreenState extends State<BottomBarSelectingScreen> {
             BottomNavigationBarItem(
                 icon: SizedBox(
                     width: 24,
-                    child: SvgPicture.asset("assets/icons/bottomIcon4.svg",)),
-                    activeIcon:SizedBox(
+                    child: SvgPicture.asset(
+                      "assets/icons/bottomIcon4.svg",
+                    )),
+                activeIcon: SizedBox(
                     width: 24,
-                    child: SvgPicture.asset("assets/icons/bottomIcon4.svg",color:Colors.black,)) ,
+                    child: SvgPicture.asset(
+                      "assets/icons/bottomIcon4.svg",
+                      color: Colors.black,
+                    )),
                 label: '',
                 backgroundColor: Colors.yellow),
             BottomNavigationBarItem(
-              activeIcon:SizedBox(
+              activeIcon: SizedBox(
                   width: 24,
-                  child: SvgPicture.asset("assets/icons/bottomIcon3.svg",color: Colors.black)) ,
+                  child:  Icon(Icons.newspaper_outlined,color: Colors.grey,)),
               icon: SizedBox(
                   width: 24,
-                  child: SvgPicture.asset("assets/icons/bottomIcon3.svg")),
+                  child: Icon(Icons.newspaper_outlined,color: Colors.grey[400],)),
               label: '',
               backgroundColor: Colors.blue,
             ),
             BottomNavigationBarItem(
               activeIcon: SizedBox(
                   width: 24,
-                  child: SvgPicture.asset("assets/icons/bottomIcon1.svg",color: Colors.black)),
+                  child: SvgPicture.asset("assets/icons/bottomIcon1.svg",
+                      color: Colors.black)),
               icon: SizedBox(
                   width: 24,
                   child: SvgPicture.asset("assets/icons/bottomIcon1.svg")),
@@ -102,12 +107,17 @@ class _BottomBarSelectingScreenState extends State<BottomBarSelectingScreen> {
               backgroundColor: Colors.blue,
             ),
             BottomNavigationBarItem(
-             activeIcon: SizedBox(
+              activeIcon: SizedBox(
                   width: 24,
-                  child: SvgPicture.asset("assets/icons/bottomIcon2.svg",color: Colors.black,)) ,
+                  child: SvgPicture.asset(
+                    "assets/icons/bottomIcon2.svg",
+                    color: Colors.black,
+                  )),
               icon: SizedBox(
                   width: 24,
-                  child: SvgPicture.asset("assets/icons/bottomIcon2.svg",)),
+                  child: SvgPicture.asset(
+                    "assets/icons/bottomIcon2.svg",
+                  )),
               label: '',
               backgroundColor: Colors.blue,
             ),

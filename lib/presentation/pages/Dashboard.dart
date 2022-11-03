@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:one_touch/Providers/MainProvider.dart';
+import 'package:one_touch/Providers/HomeProvider.dart';
+
 import 'package:one_touch/presentation/common/SearchBox.dart';
 
 import 'package:one_touch/presentation/common/TitleBarHome.dart';
@@ -11,6 +12,7 @@ import 'package:one_touch/presentation/components/DrawerComponent.dart';
 import 'package:one_touch/presentation/components/HomeSlider.dart';
 import 'package:one_touch/presentation/components/MainMenu.dart';
 import 'package:provider/provider.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({Key? key}) : super(key: key);
@@ -20,25 +22,33 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
-  
-
+  PageController _controller = PageController();
+@override
+  initState() {
+    super.initState();
+    var data =
+        Provider.of<HomeProvider>(context, listen: false).getCategories();
+  }
   @override
   Widget build(BuildContext context) {
-    var data = Provider.of<MainProvider>(context);
+    var data = Provider.of<HomeProvider>(context);
+    
     return Scaffold(
       // appBar: AppBar(),
       drawer: Drawer(
         child: DrawerComponent(),
       ),
-      body: data.isLoading == LoadingState.waiting
-          ? Center(
-              child: CircularProgressIndicator(
-                color: Color(0xff39C7A5),
-              ),
-            )
-          : RefreshIndicator(
+      body: 
+        data.isLoading
+            ? Center(
+                child: CircularProgressIndicator(
+                  color: Color(0xff39C7A5),
+                ),
+              )
+            :
+           RefreshIndicator(
               onRefresh: <Null>() async {
-                data.fetchCategories();
+                // data.fetchCategories();
               },
               child: SingleChildScrollView(
                 scrollDirection: Axis.vertical,
@@ -85,7 +95,23 @@ class _DashboardState extends State<Dashboard> {
                         Container(
                             height: 140,
                             // width: 200,
-                            child: HomeSlider()),
+                            child: HomeSlider(controller: _controller)),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Center(
+                          child: SmoothPageIndicator(
+                            controller: _controller,
+                            count: data.homePageData.offers.length,
+                            effect: WormEffect(
+                              dotHeight: 6,
+                              dotWidth: 6,
+                              activeDotColor: Color(0xff39C7A5),
+                              type: WormType.thin,
+                              // strokeWidth: 5,
+                            ),
+                          ),
+                        ),
                         // Image.asset("assets/images/banner.png"),
                         SizedBox(
                           height: 30,
@@ -103,10 +129,6 @@ class _DashboardState extends State<Dashboard> {
                 ),
               ),
             ),
-      
     );
   }
-  
 }
- 
-

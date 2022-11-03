@@ -4,38 +4,39 @@ import 'package:one_touch/presentation/common/SearchBox.dart';
 import 'package:one_touch/presentation/common/TileType1.dart';
 import 'package:one_touch/presentation/common/TileType2.dart';
 import 'package:one_touch/presentation/common/TileType3.dart';
+import 'package:one_touch/presentation/common/TileType4.dart';
 import 'package:one_touch/presentation/common/TitleBar.dart';
 import 'package:provider/provider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
-class Emergency extends StatefulWidget {
-  const Emergency({Key? key}) : super(key: key);
+class Contacts extends StatefulWidget {
+  const Contacts({Key? key}) : super(key: key);
 
   @override
-  State<Emergency> createState() => _EmergencyState();
+  State<Contacts> createState() => _ContactsState();
 }
 
-class _EmergencyState extends State<Emergency> {
+class _ContactsState extends State<Contacts> {
   @override
   initState() {
     super.initState();
     var data =
-        Provider.of<HomeProvider>(context, listen: false).getEmergencies();
+        Provider.of<HomeProvider>(context, listen: false).getContacts();
   }
 
   @override
   Widget build(BuildContext context) {
     var data2 = Provider.of<HomeProvider>(context);
 
-    return Scaffold(
-      body:data2.isLoading?Center(child: CircularProgressIndicator(color: Color(0xff39C7A5),),): SingleChildScrollView(
+    return data2.isLoading?Center(child: CircularProgressIndicator(color: Color(0xff39C7A5),),):Scaffold(
+      body: SingleChildScrollView(
           child: Container(
         padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             TitleBar(
-              title: "Emergency",
+              title: "Contacts",
             ),
             SizedBox(
               height: 21,
@@ -48,7 +49,7 @@ class _EmergencyState extends State<Emergency> {
                 scrollDirection: Axis.horizontal,
                 child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: data2.emergencyData.subCategories
+                    children: data2.contacts.subCategories
                         .map((e) => GestureDetector(
                               onTap: (() => {
                                     // data2.getFilteredCategory(
@@ -102,13 +103,13 @@ class _EmergencyState extends State<Emergency> {
             ),
             Align(
                 alignment: Alignment.centerLeft,
-                child: Text("Emergency",
+                child: Text("Contacts",
                     style:
                         TextStyle(fontSize: 22, fontWeight: FontWeight.w500))),
             Container(
               padding: EdgeInsets.symmetric(horizontal: 10, vertical: 22),
               child: Column(
-                  children: data2.emergencyData.items
+                  children: data2.contacts.items
                       .map((e) => GestureDetector(
                           onTap: () {
                             // Navigator.push(
@@ -120,7 +121,7 @@ class _EmergencyState extends State<Emergency> {
                             //   ),
                             // );
                           },
-                          child: TileType2(
+                          child: TileType4(
                             item: e,
                           )))
                       .toList()),

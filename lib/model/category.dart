@@ -1,38 +1,121 @@
-// import 'package:json_annotation/json_annotation.dart';
+// To parse this JSON data, do
+//
+//     final welcome = welcomeFromJson(jsonString);
 
+import 'dart:convert';
 
-// @JsonSerializable()
-// class Category{
-//   final String id;
-//   final String category_name;
-//   final String image;
-//   final String created;
-//   final String updated;
+Welcome welcomeFromJson(String str) => Welcome.fromJson(json.decode(str));
 
-//   Category({required this.id,required this.category_name,required this.image,required this.created,required this.updated});
-//   /// Connect the generated [_$PersonFromJson] function to the `fromJson` factory.
-//   factory Category.fromJson(Map<String, dynamic> json) => _$CategoryFromJson(json);
+String welcomeToJson(Welcome data) => json.encode(data.toJson());
 
-//   /// Connect the generated [_$PersonToJson] function to the `toJson` method.
-//   Map<String, dynamic> toJson() => _$CategoryToJson(this);
-// }
+class Welcome {
+    Welcome({
+        required this.categories,
+        required this.offers,
+    });
 
-// class Person {
-//   // type the fields you want to use
-//   final String id;
-//   final String firstName;
-//   final String lastName;
+    List<Category> categories;
+    List<Offer> offers;
 
-//   Person({required this.id, required this.firstName, this.lastName});
+    factory Welcome.fromJson(Map<String, dynamic> json) => Welcome(
+        categories: List<Category>.from(json["categories"].map((x) => Category.fromJson(x))),
+        offers: List<Offer>.from(json["offers"].map((x) => Offer.fromJson(x))),
+    );
 
-//   /// Connect the generated [_$PersonFromJson] function to the `fromJson` factory.
-//   factory Person.fromJson(Map<String, dynamic> json) => _$PersonFromJson(json);
+    Map<String, dynamic> toJson() => {
+        "categories": List<dynamic>.from(categories.map((x) => x.toJson())),
+        "offers": List<dynamic>.from(offers.map((x) => x.toJson())),
+    };
+}
 
-//   /// Connect the generated [_$PersonToJson] function to the `toJson` method.
-//   Map<String, dynamic> toJson() => _$PersonToJson(this);
-// }
+class Category {
+    Category({
+        required this.collectionId,
+        required this.collectionName,
+        required this.categoryName,
+        required this.categoryType,
+        required this.created,
+        required this.id,
+        required this.image,
+        required this.parentCategory,
+        required this.updated,
+    });
 
-// // fetch your record model
-// final record = await client.records.getOne(...);
+    String collectionId;
+    String collectionName;
+    String categoryName;
+    String categoryType;
+    DateTime created;
+    String id;
+    String image;
+    String parentCategory;
+    DateTime updated;
 
-// final person = Person.fromJson(record.toJson())
+    factory Category.fromJson(Map<String, dynamic> json) => Category(
+        collectionId: json["@collectionId"],
+        collectionName: json["@collectionName"],
+        categoryName: json["category_name"],
+        categoryType: json["category_type"],
+        created: DateTime.parse(json["created"]),
+        id: json["id"],
+        image: json["image"],
+        parentCategory: json["parent_category"],
+        updated: DateTime.parse(json["updated"]),
+    );
+
+    Map<String, dynamic> toJson() => {
+        "@collectionId": collectionId,
+        "@collectionName": collectionName,
+        "category_name": categoryName,
+        "category_type": categoryType,
+        "created": created.toIso8601String(),
+        "id": id,
+        "image": image,
+        "parent_category": parentCategory,
+        "updated": updated.toIso8601String(),
+    };
+}
+
+class Offer {
+    Offer({
+        required this.collectionId,
+        required this.collectionName,
+        required this.category,
+        required this.created,
+        required this.id,
+        required this.image,
+        required this.showInHome,
+        required this.updated,
+    });
+
+    String collectionId;
+    String collectionName;
+    String category;
+    DateTime created;
+    String id;
+    String image;
+    bool showInHome;
+    DateTime updated;
+
+    factory Offer.fromJson(Map<String, dynamic> json) => Offer(
+        collectionId: json["@collectionId"],
+        collectionName: json["@collectionName"],
+        category: json["category"],
+        created: DateTime.parse(json["created"]),
+        id: json["id"],
+        image: json["image"],
+        showInHome: json["show_in_home"],
+        updated: DateTime.parse(json["updated"]),
+    );
+
+    Map<String, dynamic> toJson() => {
+        "@collectionId": collectionId,
+        "@collectionName": collectionName,
+        "category": category,
+        "created": created.toIso8601String(),
+        "id": id,
+        "image": image,
+        "show_in_home": showInHome,
+        "updated": updated.toIso8601String(),
+    };
+}

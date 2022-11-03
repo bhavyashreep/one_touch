@@ -43,7 +43,7 @@ class _TitleBarState extends State<TitleBar> {
                     padding: EdgeInsets.only(left: 8),
                     child: Text(
                     widget.title,
-                    style: TextStyle(fontSize: 32, fontWeight: FontWeight.w700),
+                    style: TextStyle(fontSize: 28, fontWeight: FontWeight.w700),
                                   ),
                   ),],                  
                 ),

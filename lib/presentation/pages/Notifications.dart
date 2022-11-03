@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:one_touch/Providers/MainProvider.dart';
+import 'package:one_touch/Providers/HomeProvider.dart';
+
 import 'package:one_touch/presentation/common/TitleBar.dart';
 import 'package:one_touch/presentation/components/NotificationCard.dart';
 import 'package:provider/provider.dart';
@@ -15,16 +16,16 @@ class _NotificationsState extends State<Notifications> {
    void initState() {
     super.initState();
     // fetchCategories();
-    Provider.of<MainProvider>(context, listen: false).getNotifications();
+    Provider.of<HomeProvider>(context, listen: false).getNotofications();
   }
 
   @override
   Widget build(BuildContext context) {
-     var data = Provider.of<MainProvider>(context);
-     print("${data.notifications}aaa ");
+     var data = Provider.of<HomeProvider>(context);
+     print("${data.notificationsAll}aaa ");
 
     return Scaffold(
-      body: SingleChildScrollView(
+      body:data.isLoading?Center(child: CircularProgressIndicator(color: Color(0xff39C7A5),),) :SingleChildScrollView(
           child: Container(
         padding: EdgeInsets.all(22),
         child: Column(
@@ -39,7 +40,7 @@ class _NotificationsState extends State<Notifications> {
                   style: TextStyle(color: Color(0xff999DA0), fontSize: 14),
                 ),
             ),),
-            ...data.notifications.map(((e) =>NotificationCard(item:e) ))
+            ...data.notificationsAll.items.map(((e) =>NotificationCard(item:e) ))
             // data.notifications.map((e) =>NotificationCard().toList()))
             // NotificationCard(),
             // NotificationCard(),

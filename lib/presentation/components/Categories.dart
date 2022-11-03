@@ -1,6 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:one_touch/Providers/MainProvider.dart';
+import 'package:one_touch/Providers/HomeProvider.dart';
+
+import 'package:one_touch/presentation/Api/api.dart';
 import 'package:one_touch/presentation/pages/HyperMarket.dart';
 import 'package:pocketbase/pocketbase.dart';
 import "dart:async";
@@ -8,6 +10,7 @@ import 'dart:convert';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:one_touch/model/category.dart' as cat;
 
 class Categories extends StatefulWidget {
   const Categories({Key? key}) : super(key: key);
@@ -17,21 +20,24 @@ class Categories extends StatefulWidget {
 }
 
 class _CategoriesState extends State<Categories> {
-  // @override
-  // void didChangeDependencies() {
-  //   // TODO: implement didChangeDependencies
-  //   print("calling");
 
-  //   Provider.of<MainProvider>(context).fetchCategories().catchError((onError) {
-  //     ("not found");
-  //     (onError);
-  //   });
-  //   print("calling bb");
+  @override
+  initState() {
+    super.initState();
+    var data =
+        Provider.of<HomeProvider>(context, listen: false).getCategories();
+  }
 
-  //   super.didChangeDependencies();
-  // }
-
-  Map<String, dynamic> completeResponse = {};
+  cat.Category completeResponse = cat.Category(
+      collectionId: "",
+      collectionName: "",
+      categoryName: "",
+      categoryType: "",
+      created: DateTime.now(),
+      id: "",
+      image: "",
+      parentCategory: "",
+      updated: DateTime.now());
   List localResponseData = [];
   Future<void> localStorage() async {
     final prefs = await SharedPreferences.getInstance();
@@ -53,11 +59,12 @@ class _CategoriesState extends State<Categories> {
       // if(decodedData.length != 0){
       var isAvail = false;
       for (var i = 0; i < decodedData.length; i++) {
-        if (decodedData[i]["id"] == completeResponse["id"]) {
+        if (decodedData[i]["id"] == completeResponse.id) {
           isAvail = true;
         }
       }
-      if (!isAvail) {
+     
+        if (!isAvail) {
         decodedData.add(completeResponse);
         print("yes ${decodedData.length}");
         print("$decodedData after adding________________");
@@ -80,21 +87,19 @@ class _CategoriesState extends State<Categories> {
         var views = json.decode(view.toString());
         print("$views decoded data after added");
       }
-      // this.surveyRresponse.clear();
-      // print("$surveyRresponse cleared survey response");
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    var data = Provider.of<MainProvider>(context);
-    data.fetchCategories();
-    print("categories ${data.categories}");
+    var data2 = Provider.of<HomeProvider>(context);
+
+    print("categories ${data2.homePageData}");
     return Center(
       child: Wrap(
           runSpacing: 20,
-          alignment: WrapAlignment.start,
-          children: data.categories
+          alignment: WrapAlignment.spaceBetween,
+          children: data2.homePageData.categories
               .map(
                 (e) => GestureDetector(
                   onTap: () {
@@ -104,8 +109,8 @@ class _CategoriesState extends State<Categories> {
                       context,
                       MaterialPageRoute(
                         builder: (context) => HyperMarket(
-                          categoryId: e["id"],
-                          categoryName: e["category_name"],
+                          categoryId: e.id,
+                          categoryName: e.categoryName,
                         ),
                       ),
                     );
@@ -118,13 +123,14 @@ class _CategoriesState extends State<Categories> {
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(32.0),
                           child: CachedNetworkImage(
+                            fit: BoxFit.contain,
                               errorWidget: (context, url, error) =>
                                   Image.asset("assets/images/default.png"),
                               placeholder: (context, url) =>
                                   Image.asset("assets/images/default.png"),
                               imageUrl:
-                                  "http://137.184.74.132/api/files/x2o3wbfic58mx57/${e["id"]}/" +
-                                      e["image"]),
+                                  "http://137.184.74.132/api/files/x2o3wbfic58mx57/${e.id}/" +
+                                      e.image),
                         ),
                         backgroundColor: Colors.transparent,
                       ),
@@ -132,7 +138,7 @@ class _CategoriesState extends State<Categories> {
                         height: 10,
                       ),
                       Text(
-                        e["category_name"],
+                        e.categoryName,
                         style: TextStyle(color: Color(0xff999DA0)),
                       )
                     ]),

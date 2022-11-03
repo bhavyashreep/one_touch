@@ -1,16 +1,19 @@
-//This is the card inside category expanded page, for type "shop"
+//This is the card inside category expanded page, for type "labour"
+
 import 'package:flutter/material.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:one_touch/model/SingleCategory.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:one_touch/model/Contacts.dart';
+
+
 import 'package:url_launcher/url_launcher.dart';
 
-class TileType1 extends StatelessWidget {
+class TileType4 extends StatelessWidget {
   final Item item;
 
-  const TileType1({Key? key, required this.item}) : super(key: key);
-  _makingPhoneCall() async {
-    var url = Uri.parse("tel:9776765434");
+  const TileType4({Key? key, required this.item}) : super(key: key);
+  _makingPhoneCall(phone) async {
+    var url = Uri.parse("tel:$phone");
     if (await canLaunchUrl(url)) {
       await launchUrl(url);
     } else {
@@ -32,16 +35,16 @@ class TileType1 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("item ${item}");
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 12),
+      padding: EdgeInsets.symmetric(vertical: 12),
       child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
         Row(
           children: [
-            CircleAvatar(
-              radius: 32.0,
+            Container(
+              height: 73,
+              width: 73,
               child: ClipRRect(
-                borderRadius: BorderRadius.circular(32.0),
+                borderRadius: BorderRadius.circular(8),
                 child: CachedNetworkImage(
                     errorWidget: (context, url, error) =>
                         Image.asset("assets/images/default.png"),
@@ -51,7 +54,7 @@ class TileType1 extends StatelessWidget {
                         "http://137.184.74.132/api/files/${item.collectionId}/${item.id}/" +
                             item.image),
               ),
-              backgroundColor: Colors.transparent,
+              decoration: BoxDecoration(borderRadius: BorderRadius.circular(8)),
             ),
             SizedBox(width: 10),
             Column(
@@ -66,7 +69,7 @@ class TileType1 extends StatelessWidget {
                       size: 20,
                     ),
                     Text(
-                      item.location,
+                      "Kakkanad, Kochi",
                       style: TextStyle(color: Color(0xff999DA0)),
                     )
                   ],
@@ -79,7 +82,7 @@ class TileType1 extends StatelessWidget {
           children: [
             item.phoneNumber != ""
                 ? InkWell(
-                    onTap: _makingPhoneCall,
+                    onTap:(){_makingPhoneCall(item.phoneNumber);} ,
                     child: const Icon(
                       Icons.phone,
                       size: 24,
@@ -90,17 +93,12 @@ class TileType1 extends StatelessWidget {
             const SizedBox(
               width: 20,
             ),
-            item.whatsappNumber != ""
+            item.whatsapp != ""
                 ? InkWell(
-                    onTap: () => openwhatsapp(context, item.whatsappNumber),
-                    child: SvgPicture.asset("assets/icons/whatsapp.svg"))
-                : const SizedBox(),
-            item.isPaid
-                ? const Icon(
-                    Icons.keyboard_arrow_right_outlined,
-                    size: 30,
-                    color: Color(0xff1C1D20),
-                  )
+                  onTap: (){
+                    openwhatsapp(context, item.whatsapp);
+                  },
+                  child: SvgPicture.asset("assets/icons/whatsapp.svg"))
                 : const SizedBox()
           ],
         )
