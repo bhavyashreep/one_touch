@@ -51,8 +51,8 @@ class _EmergencyState extends State<Emergency> {
                     children: data2.emergencyData.subCategories
                         .map((e) => GestureDetector(
                               onTap: (() => {
-                                    // data2.getFilteredCategory(
-                                    //     widget.categoryId, e["id"])
+                                    data2.getFilteredCategory(
+                                        data2.emergencyData.items[0].collectionId, e.id,""),
                                   }),
                               child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.center,

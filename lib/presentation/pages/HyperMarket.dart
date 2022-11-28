@@ -17,6 +17,7 @@ class HyperMarket extends StatefulWidget {
   final String categoryId;
   final String categoryName;
 
+
   const HyperMarket(
       {Key? key, required this.categoryId, required this.categoryName})
       : super(key: key);
@@ -26,6 +27,9 @@ class HyperMarket extends StatefulWidget {
 }
 
 class _HyperMarketState extends State<HyperMarket> {
+  final searchController = new TextEditingController();
+  var subId="";
+
   @override
   void initState() {
     super.initState();
@@ -33,11 +37,21 @@ class _HyperMarketState extends State<HyperMarket> {
     Provider.of<HomeProvider>(context, listen: false)
         .getCategory(widget.categoryId);
   }
+  void onChange(val){
+      print("hii");
+
+    var data=Provider.of<HomeProvider>(context, listen: false)
+        ;
+      print("search ${searchController.text}");
+      data.getFilteredCategory2(widget.categoryId,subId,searchController.text);
+
+    }
 
   @override
   Widget build(BuildContext context) {
     print("category id:${widget.categoryId}");
     var data = Provider.of<HomeProvider>(context);
+   
 
     return Scaffold(
       body: data.isLoading
@@ -59,7 +73,7 @@ class _HyperMarketState extends State<HyperMarket> {
                   SizedBox(
                     height: 21,
                   ),
-                  SearchBox(),
+                  SearchBox(serachText: searchController,onChange:onChange),
                   SizedBox(
                     height: 32,
                   ),
@@ -71,7 +85,8 @@ class _HyperMarketState extends State<HyperMarket> {
                               .map((e) => GestureDetector(
                                     onTap: (() => {
                                           data.getFilteredCategory(
-                                              widget.categoryId, e["id"])
+                                              widget.categoryId, e["id"],searchController.text),
+                                              subId=e["id"]
                                         }),
                                     child: Column(
                                         crossAxisAlignment:

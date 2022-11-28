@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:one_touch/presentation/pages/Login/LoginScreen.dart';
+import 'package:one_touch/presentation/pages/Login/RegistrationScreen.dart';
 import 'package:one_touch/presentation/pages/Profile.dart';
 import 'package:one_touch/presentation/pages/Notifications.dart';
 
@@ -16,6 +17,8 @@ class TitleBarHome extends StatefulWidget {
 class _TitleBarHomeState extends State<TitleBarHome> {
   @override
   Widget build(BuildContext context) {
+  print("><><><><><><><><><><><><><>${widget.details.profile.photo}");
+
     return Container(
         padding: EdgeInsets.only(top: 60, left: 14, right: 14),
         child: Row(
@@ -78,9 +81,9 @@ class _TitleBarHomeState extends State<TitleBarHome> {
                       ? CircleAvatar(
                           radius: 24.0,
                           backgroundImage:
-                              NetworkImage("http://137.184.74.132/api/files/a0nwgx35131zle5/${widget.details.id}/" +
-                               widget.details.image,),
-                          backgroundColor: Colors.transparent,
+                              NetworkImage("http://137.184.74.132/api/files/${widget.details.profile.collectionId}/${widget.details.profile.id}/" +
+                               widget.details.profile.photo,),
+                          backgroundColor: Color.fromARGB(0, 250, 236, 236),
                         )
                       : GestureDetector(
                         onTap: (){
@@ -88,6 +91,7 @@ class _TitleBarHomeState extends State<TitleBarHome> {
                       context,
                       MaterialPageRoute(
                         builder: (context) => LoginScreen(
+                         
                         
                         ),
                       ),

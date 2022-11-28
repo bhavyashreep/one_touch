@@ -51,6 +51,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "1025924095619-a0be4dg50fk58m7aone2fsp0p1l3i8b6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "in.onetouch.one_touch",
+            "certificate_hash": "0c2344e8501b7c7a219efd04490dbbb2d43c6eb0"
+          }
+        },
+        {
           "client_id": "1025924095619-a8bfltlrhafpf4505406a8p7nc6jirme.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

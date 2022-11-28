@@ -102,7 +102,7 @@ class SubCategory {
     String categoryName;
     String categoryType;
     DateTime created;
-    String id;
+    String id; 
     String image;
     String parentCategory;
     DateTime updated;

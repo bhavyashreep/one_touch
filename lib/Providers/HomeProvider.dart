@@ -13,10 +13,13 @@ import 'package:one_touch/model/SingleCategory.dart' as cat;
 
 import 'package:one_touch/presentation/Api/api.dart';
 import 'package:one_touch/presentation/pages/Dashboard.dart';
+import 'package:one_touch/presentation/pages/Profile.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:one_touch/model/profile.dart' as prof;
 import 'package:one_touch/model/newsdata.dart';
+import 'package:geolocator/geolocator.dart';
+
 
 class HomeProvider extends ChangeNotifier {
   bool isLoading = true;
@@ -31,39 +34,13 @@ class HomeProvider extends ChangeNotifier {
   Details itemDetils = Details(offers: []);
   late NewsData news;
   late prof.Profile profDetails = prof.Profile(
-      details: prof.Details(
-          category: "",
-          collectionId: "",
-          collectionName: "",
-          created: DateTime.now(),
-          id: "",
-          image: "",
-          lat: "",
-          lng: "",
-          location: "",
-          name: "",
-          phoneNumber: "",
-          user: "",
-          updated: DateTime.now(),
-          whatsapp: ""),
-      message: "",
-      status: false,
-      user: prof.User(
-          verified: false,
-          created: DateTime.now(),
-          email: "",
-          lastResetSentAt: "",
-          id: "",
-          lastVerificationSentAt: "",
-          updated: DateTime.now(),
-          profile: prof.ProfileClass(
-              collectionId: "",
-              collectionName: "",
-              created: DateTime.now(),
-              id: "",
-              mobile: "",
-              updated: DateTime.now(),
-              userId: "")));
+    contacts: [],
+    items: [],
+    message: "",
+    status: false,
+    user: prof.User(created:DateTime.now(),email: "",id: "",lastResetSentAt: "",lastVerificationSentAt: "",profile: prof.ProfileClass(collectionId: "",collectionName: "",created: DateTime.now(),id: "",mobile: "",photo: "",updated: DateTime.now(),userId: "",userName: ""),updated: DateTime.now(),verified: false )
+
+     );
 
   SingleCategory category = SingleCategory(
       category: cat.Category(
@@ -83,8 +60,31 @@ class HomeProvider extends ChangeNotifier {
   Future<void> getCategories() async {
     // isLoading = true;
     // notifyListeners();
+     LocationPermission permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        return Future.error('Location permissions are denied');
+      }
+    }
 
-    var data = await getCateoriesOffers();
+    if (permission == LocationPermission.deniedForever) {
+      // Permissions are denied forever, handle appropriately.
+      return Future.error(
+          'Location permissions are permanently denied, we cannot request permissions.');
+    }
+
+    // When we reach here, permissions are granted and we can
+    // continue accessing the position of the device.
+    // return await Geolocator.getCurrentPosition();
+    Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.low);
+    print(position.latitude);
+    print(position.longitude);
+    var lat = position.latitude;
+    var lng = position.longitude;
+
+    var data = await getCateoriesOffers(lat,lng);
     homePageData = data;
     isLoading = false;
 
@@ -146,15 +146,22 @@ class HomeProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> getFilteredCategory(id, subcategoryId) async {
+  Future<void> getFilteredCategory(id, subcategoryId,search) async {
     isLoading = true;
     notifyListeners();
 
-    var data = await fetchFilteredCategory(id, subcategoryId);
+    var data = await fetchFilteredCategory(id, subcategoryId,search);
     category = data;
     isLoading = false;
 
     notifyListeners();
+  }
+  Future<void> getFilteredCategory2(id, subcategoryId,search) async {
+  
+
+    var data = await fetchFilteredCategory(id, subcategoryId,search);
+    category = data;
+   
   }
 
   Future<void> getItemDetails(id) async {
@@ -199,20 +206,14 @@ class HomeProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-Future<void> signUpData(categoryy, image, lat, lng, location, name,
-      phone_number, whatsapp, context) async {
+Future<void> signUpData(phone_number,photo,name,type,categoryy,sub,item, image, desc,location, 
+       itemMobile,whatsapp, lat, lng, context) async {
     isLoading = true;
     notifyListeners();
 
     var data = await signUp(
-      categoryy,
-      image,
-      lat,
-      lng,
-      location,
-      name,
-      phone_number,
-      whatsapp,
+      phone_number,photo,name,type,categoryy,sub,item, image, desc,location, 
+       itemMobile,whatsapp, lat, lng, context
     );
     // itemDetils = data;
     isLoading = false;
@@ -248,5 +249,39 @@ Future<void> signUpData(categoryy, image, lat, lng, location, name,
     isLoading = false;
 
     notifyListeners();
+  }
+  Future<void> deleteItem(type,id) async {
+    isLoading = true;
+    notifyListeners();
+
+    var data = await deleteItemApi(type,id);
+   getProfile();
+    isLoading = false;
+
+    notifyListeners();
+  }
+  Future<void> addItem(phone_number,photo,type,categoryy,sub,item, desc,location, 
+       whatsapp, lat, lng, context) async {
+    isLoading = true;
+    notifyListeners();
+
+    var data = await addItemApi(
+      phone_number,
+      photo,type,categoryy,sub,item, desc,location, 
+       whatsapp, lat, lng, context
+    );
+    // itemDetils = data;
+
+    isLoading = false;
+    notifyListeners();
+    if (data.status) {
+      Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Profile(),
+          ),
+          (route) => false);
+    }
+   
   }
 }

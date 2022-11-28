@@ -65,28 +65,37 @@ class _MainMenuState extends State<MainMenu> {
                                   ),
                                 );
                               },
+                              // child: CircleAvatar(
+                              //   radius: 41.5,
+                              //   backgroundColor:Colors.blue[200],
                               child: CircleAvatar(
                                 radius: 40.0,
                                 child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(40.0),
-                                  child: CachedNetworkImage(
-                                      fit: BoxFit.contain,
-                                      errorWidget: (context, url, error) =>
-                                          Image.asset(
-                                              "assets/images/default.png"),
-                                      placeholder: (context, url) =>
-                                          Image.asset(
-                                              "assets/images/default.png"),
-                                      imageUrl:
-                                          "http://137.184.74.132/api/files/x2o3wbfic58mx57/${e.id}/" +
-                                              e.image),
+                                  // borderRadius: BorderRadius.circular(40.0),
+                                  child: Container(
+                                    height: 60,
+                                    child: CachedNetworkImage(
+                                        fit: BoxFit.contain,
+                                        errorWidget: (context, url, error) =>
+                                            Image.asset(
+                                              "assets/images/default.png",
+                                              width: 50,
+                                            ),
+                                        placeholder: (context, url) =>
+                                            Image.asset(
+                                                "assets/images/default.png"),
+                                        imageUrl:
+                                            "http://137.184.74.132/api/files/x2o3wbfic58mx57/${e.id}/" +
+                                                e.image),
+                                  ),
                                 ),
-                                backgroundColor: Colors.transparent,
+                                backgroundColor: Colors.white,
                               ),
                             ),
-                            SizedBox(
-                              height: 10,
-                            ),
+                            // ),
+                            // SizedBox(
+                            //   height: 10,
+                            // ),
                             Text(
                               e.categoryName,
                               style: TextStyle(color: Color(0xff999DA0)),

@@ -10,97 +10,129 @@ String profileToJson(Profile data) => json.encode(data.toJson());
 
 class Profile {
     Profile({
-        required this.details,
+        required this.contacts,
+        required this.items,
         required this.message,
         required this.status,
         required this.user,
     });
 
-    Details details;
+    List<dynamic> contacts;
+    List<Item> items;
     String message;
-    bool status;
+    dynamic status;
     User user;
 
     factory Profile.fromJson(Map<String, dynamic> json) => Profile(
-        details: Details.fromJson(json["details"]),
+        contacts: List<dynamic>.from(json["contacts"].map((x) => x)),
+        items: List<Item>.from(json["items"].map((x) => Item.fromJson(x))),
         message: json["message"],
         status: json["status"],
         user: User.fromJson(json["user"]),
     );
 
     Map<String, dynamic> toJson() => {
-        "details": details.toJson(),
+        "contacts": List<dynamic>.from(contacts.map((x) => x)),
+        "items": List<dynamic>.from(items.map((x) => x.toJson())),
         "message": message,
         "status": status,
         "user": user.toJson(),
     };
 }
 
-class Details {
-    Details({
+class Item {
+    Item({
         required this.collectionId,
         required this.collectionName,
+        required this.approved,
         required this.category,
         required this.created,
+        required this.facebook,
         required this.id,
         required this.image,
+        required this.isPaid,
         required this.lat,
         required this.lng,
         required this.location,
+        required this.longDescription,
         required this.name,
         required this.phoneNumber,
+        required this.shortDescription,
+        required this.subCategory,
         required this.updated,
         required this.user,
-        required this.whatsapp,
+        required this.website,
+        required this.whatsappNumber,
     });
 
     String collectionId;
     String collectionName;
+    dynamic approved;
     String category;
     DateTime created;
+    String facebook;
     String id;
     String image;
+    dynamic isPaid;
     String lat;
     String lng;
     String location;
+    String longDescription;
     String name;
     String phoneNumber;
+    String shortDescription;
+    String subCategory;
     DateTime updated;
     String user;
-    String whatsapp;
+    String website;
+    String whatsappNumber;
 
-    factory Details.fromJson(Map<String, dynamic> json) => Details(
+    factory Item.fromJson(Map<String, dynamic> json) => Item(
         collectionId: json["@collectionId"],
         collectionName: json["@collectionName"],
+        approved: json["approved"],
         category: json["category"],
         created: DateTime.parse(json["created"]),
+        facebook: json["facebook"],
         id: json["id"],
         image: json["image"],
+        isPaid: json["is_paid"],
         lat: json["lat"],
         lng: json["lng"],
         location: json["location"],
+        longDescription: json["long_description"],
         name: json["name"],
         phoneNumber: json["phone_number"],
+        shortDescription: json["short_description"],
+        subCategory: json["sub_category"],
         updated: DateTime.parse(json["updated"]),
         user: json["user"],
-        whatsapp: json["whatsapp"],
+        website: json["website"],
+        whatsappNumber: json["whatsapp_number"],
     );
 
     Map<String, dynamic> toJson() => {
         "@collectionId": collectionId,
         "@collectionName": collectionName,
+        "approved": approved,
         "category": category,
         "created": created.toIso8601String(),
+        "facebook": facebook,
         "id": id,
         "image": image,
+        "is_paid": isPaid,
         "lat": lat,
         "lng": lng,
         "location": location,
+        "long_description": longDescription,
         "name": name,
         "phone_number": phoneNumber,
+        "short_description": shortDescription,
+        "sub_category": subCategory,
         "updated": updated.toIso8601String(),
         "user": user,
-        "whatsapp": whatsapp,
+        "website": website,
+        "whatsapp_number": whatsappNumber,
     };
 }
 
@@ -121,7 +153,7 @@ class User {
     DateTime updated;
     String email;
     String lastResetSentAt;
-    bool verified;
+    dynamic verified;
     String lastVerificationSentAt;
     ProfileClass profile;
 
@@ -150,13 +182,15 @@ class User {
 
 class ProfileClass {
     ProfileClass({
-        required this.collectionId,
-        required this.collectionName,
-        required this.created,
-        required this.id,
-        required this.mobile,
-        required this.updated,
-        required this.userId,
+       required this.collectionId,
+       required this.collectionName,
+       required this.created,
+       required this.id,
+       required this.mobile,
+       required this.photo,
+       required this.updated,
+       required this.userId,
+       required this.userName,
     });
 
     String collectionId;
@@ -164,8 +198,10 @@ class ProfileClass {
     DateTime created;
     String id;
     String mobile;
+    String photo;
     DateTime updated;
     String userId;
+    String userName;
 
     factory ProfileClass.fromJson(Map<String, dynamic> json) => ProfileClass(
         collectionId: json["@collectionId"],
@@ -173,8 +209,10 @@ class ProfileClass {
         created: DateTime.parse(json["created"]),
         id: json["id"],
         mobile: json["mobile"],
+        photo: json["photo"],
         updated: DateTime.parse(json["updated"]),
         userId: json["userId"],
+        userName: json["user_name"],
     );
 
     Map<String, dynamic> toJson() => {
@@ -183,7 +221,9 @@ class ProfileClass {
         "created": created.toIso8601String(),
         "id": id,
         "mobile": mobile,
+        "photo": photo,
         "updated": updated.toIso8601String(),
         "userId": userId,
+        "user_name": userName,
     };
 }

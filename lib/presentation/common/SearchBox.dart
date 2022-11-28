@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 
 class SearchBox extends StatelessWidget {
-  const SearchBox({Key? key}) : super(key: key);
+  final serachText;
+  final onChange;
+
+  const SearchBox({Key? key, this.serachText, this.onChange}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -9,7 +12,8 @@ class SearchBox extends StatelessWidget {
       height: 50,
       child: TextFormField(
         style: TextStyle(color: Colors.black, fontSize: 20),
-        // controller: _controller,
+        controller: serachText,
+        onChanged: (val){onChange(val);},
         cursorColor: Colors.black,
         decoration: InputDecoration(
             prefixIcon: Icon(Icons.search_outlined),

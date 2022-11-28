@@ -13,6 +13,8 @@ import 'package:one_touch/presentation/components/HomeSlider.dart';
 import 'package:one_touch/presentation/components/MainMenu.dart';
 import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 
 class Dashboard extends StatefulWidget {
   const Dashboard({Key? key}) : super(key: key);
@@ -23,15 +25,49 @@ class Dashboard extends StatefulWidget {
 
 class _DashboardState extends State<Dashboard> {
   PageController _controller = PageController();
+  var token;
+  final scrollController=ScrollController();
+
 @override
   initState() {
     super.initState();
+    scrollController.addListener((){
+      if(scrollController.position.pixels==scrollController.position.maxScrollExtent){
+      print(" scrolling ends");
+        Provider.of<HomeProvider>(context, listen: false).getCategories();
+      print(" scrolling ends again");
+
+
+
+      }else{
+      print(" scrolling scrolling");
+
+      }
+    });
     var data =
         Provider.of<HomeProvider>(context, listen: false).getCategories();
+        // Provider.of<HomeProvider>(context, listen: false).getProfile();
+        checkLoggedIn();
+
   }
+
+  
   @override
+  Future<void> checkLoggedIn() async {
+    final viewData2 = await SharedPreferences.getInstance();
+    setState(() {
+      token = viewData2.getString('token');
+    });
+    if(viewData2.getString('token')!=null){
+      Provider.of<HomeProvider>(context, listen: false).getProfile();
+    }
+    print("view $token");
+  }
   Widget build(BuildContext context) {
+
     var data = Provider.of<HomeProvider>(context);
+      print(">>>>>>>>>>><<<<<<<<<<<<<<<<${data.profDetails.user.profile.mobile}");
+
     
     return Scaffold(
       // appBar: AppBar(),
@@ -51,13 +87,14 @@ class _DashboardState extends State<Dashboard> {
                 // data.fetchCategories();
               },
               child: SingleChildScrollView(
+                controller: scrollController,
                 scrollDirection: Axis.vertical,
                 child: Container(
                   padding: EdgeInsets.all(16),
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const TitleBarHome(),
+                         TitleBarHome(tokenn: token,details:data.profDetails.user,),
                         Padding(
                           padding: const EdgeInsets.only(left: 12, top: 10),
                           child: Row(children: [
@@ -65,25 +102,26 @@ class _DashboardState extends State<Dashboard> {
                               "Hello,",
                               style: TextStyle(
                                   color: Color(0xff1C1D20),
-                                  fontSize: 40,
+                                  fontSize: 38,
                                   fontWeight: FontWeight.w400),
                             ),
+                           token!=null?
                             Text(
-                              " John",
+                              " "+data.profDetails.user.profile.userName,
                               style: TextStyle(
                                   color: Color(0xff1C1D20),
-                                  fontSize: 40,
+                                  fontSize: 28,
                                   fontWeight: FontWeight.w700),
-                            )
+                            ):SizedBox()
                           ]),
                         ),
                         Padding(
                           padding:
                               const EdgeInsets.only(left: 12.0, bottom: 16),
-                          child: Text(
-                            "Lorem ipsum dolor sit amet",
-                            style: TextStyle(color: Color(0xff999DA0)),
-                          ),
+                          // child: Text(
+                          //   "Lorem ipsum dolor sit amet",
+                          //   style: TextStyle(color: Color(0xff999DA0)),
+                          // ),
                         ),
                         const SizedBox(
                           height: 21,
@@ -131,4 +169,10 @@ class _DashboardState extends State<Dashboard> {
             ),
     );
   }
+  Future<void> fetchPosts() async{
+void _scrollController(){
+
+  }
 }
+}
+

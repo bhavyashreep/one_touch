@@ -13,15 +13,12 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:geolocator/geolocator.dart';
 
-class RegisterForm extends StatefulWidget {
-  final number;
-  RegisterForm({required this.number});
-
+class ItemAdd extends StatefulWidget {
   @override
-  State<RegisterForm> createState() => _RegisterFormState();
+  State<ItemAdd> createState() => _ItemAddState();
 }
 
-class _RegisterFormState extends State<RegisterForm> {
+class _ItemAddState extends State<ItemAdd> {
   @override
   initState() {
     super.initState();
@@ -46,9 +43,7 @@ class _RegisterFormState extends State<RegisterForm> {
   final locationController = new TextEditingController();
   final descController = new TextEditingController();
   final itemController = new TextEditingController();
-  final itemMobileController = new TextEditingController();
-
-  
+  final phoneController = new TextEditingController();
 
   var selectedSub = null;
   var selecteCategory = null;
@@ -122,7 +117,7 @@ class _RegisterFormState extends State<RegisterForm> {
                     top: MediaQuery.of(context).size.height * 0.1),
                 // alignment: Alignment.topCenter,
                 child: Text(
-                  'Registration',
+                  'Add a New Item',
                   style: TextStyle(fontSize: 28.0, fontWeight: FontWeight.w500),
                 ),
               ),
@@ -137,108 +132,7 @@ class _RegisterFormState extends State<RegisterForm> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           SizedBox(
-                            height: 38.0,
-                          ),
-                          Text(
-                            'Personal Details : ',
-                            style: TextStyle(
-                                fontSize: 20.0,
-                                color: Colors.grey,
-                                fontWeight: FontWeight.w500),
-                          ),
-                          SizedBox(
-                            height: 30.0,
-                          ),
-
-                          isPicked
-                              ? Center(
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      openGallery("photo");
-                                    },
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(50.0),
-                                      child: Image.file(
-                                        pickedImage,
-                                        width: 100,
-                                        height: 100,
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                  ),
-                                )
-                              : Center(
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(50.0),
-                                    child: Container(
-                                      // padding: EdgeInsets.only(right: 10),
-                                      color: Colors.grey[300],
-                                      height: 100,
-                                      width: 100,
-                                      child: GestureDetector(
-                                        child:
-                                            //  imageList.isEmpty || imageList.length <= 1
-                                            //     ?
-                                            Center(
-                                          child: new Icon(
-                                            Icons.person_rounded,
-                                            color: Colors.white70,
-                                            size: 70,
-                                          ),
-                                        ),
-                                        //   : Image.file(imageList[1]),
-                                        onTap: () {
-                                          openGallery("photo");
-                                        },
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                          SizedBox(
-                            height: 38.0,
-                          ),
-                          Text(
-                            'NAME',
-                            style: TextStyle(fontSize: 14.0),
-                          ),
-                          SizedBox(
-                            height: 8.0,
-                          ),
-                          InputForm(
-                            passedContoller: nameController,
-                            type: TextInputType.text,
-                          ),
-                          // SizedBox(
-                          //   height: 10.0,
-                          // ),
-                          // Text(
-                          //   'EMAIL',
-                          //   style: TextStyle(
-                          //     fontSize: 14.0,
-                          //   ),
-                          // ),
-                          // SizedBox(
-                          //   width: 5.0,
-                          // ),
-                          // SizedBox(
-                          //   height: 8.0,
-                          // ),
-                          // InputForm(
-                          //   passedContoller: emailController,
-                          //   type: TextInputType.text,
-                          // ),
-                          SizedBox(
-                            height: 34.0,
-                          ),
-                          Text(
-                            'Item Details : ',
-                            style: TextStyle(
-                                fontSize: 20.0,
-                                color: Colors.grey,
-                                fontWeight: FontWeight.w500),
-                          ),
-                          SizedBox(
-                            height: 30.0,
+                            height: 58.0,
                           ),
 
                           Text(
@@ -442,26 +336,30 @@ class _RegisterFormState extends State<RegisterForm> {
                               },
                             ),
                           ),
-                         selectedType=="contact?"?SizedBox(): SizedBox(
-                            height: 18.0,
-                          ),
-                         selectedType=="contact?"?SizedBox(): Text(
-                            'SHORT DESCRIPTION',
-                            style: TextStyle(fontSize: 14.0),
-                          ),
-                         selectedType=="contact?"?SizedBox(): SizedBox(
-                            height: 8.0,
-                          ),
-                          selectedType=="contact?"?SizedBox():InputForm(
-                            passedContoller: descController,
-                            type: TextInputType.text,
-                          ),
-                         selectedType=="contact?"?SizedBox(): SizedBox(
-                            height: 10.0,
-                          ),
                           SizedBox(
                             height: 18.0,
                           ),
+                          selectedType == "contact"
+                              ? SizedBox()
+                              : Text(
+                                  'SHORT DESCRIPTION',
+                                  style: TextStyle(fontSize: 14.0),
+                                ),
+                          SizedBox(
+                            height: 8.0,
+                          ),
+                          selectedType == "contact"
+                              ? SizedBox()
+                              : InputForm(
+                                  passedContoller: descController,
+                                  type: TextInputType.text,
+                                ),
+
+                          selectedType == "contact"
+                              ? SizedBox()
+                              : SizedBox(
+                                  height: 18.0,
+                                ),
                           Text(
                             "ITEM IMAGE",
                             style: TextStyle(fontSize: 14.0),
@@ -517,7 +415,7 @@ class _RegisterFormState extends State<RegisterForm> {
                             passedContoller: itemController,
                             type: TextInputType.text,
                           ),
-                           SizedBox(
+                          SizedBox(
                             height: 10.0,
                           ),
                           // SizedBox(
@@ -531,7 +429,7 @@ class _RegisterFormState extends State<RegisterForm> {
                             height: 8.0,
                           ),
                           InputForm2(
-                            passedContoller: itemMobileController,
+                            passedContoller: phoneController,
                             type: TextInputType.number,
                           ),
                           SizedBox(
@@ -557,6 +455,7 @@ class _RegisterFormState extends State<RegisterForm> {
                           SizedBox(
                             height: 10.0,
                           ),
+
                           Text(
                             'LOCATION',
                             style: TextStyle(fontSize: 14.0),
@@ -597,11 +496,6 @@ class _RegisterFormState extends State<RegisterForm> {
                                     }
                                     _formKey.currentState!.save();
 
-                                    if (pickedImage.path == "") {
-                                      authentication.displaySnackBar(
-                                          "Please select your profile picture",
-                                          context);
-                                    }
                                     if (pickedImage2.path == "") {
                                       authentication.displaySnackBar(
                                           "Please select an item image",
@@ -612,27 +506,38 @@ class _RegisterFormState extends State<RegisterForm> {
                                       print("lat $lat");
                                       print("lng $lng");
                                       print("lng $selecteCategory");
-
-                                      data.signUpData(
-                                          widget.number,
-                                          pickedImage,
-                                          nameController.text,
+                                      data.addItem(
+                                          phoneController.text,
+                                          pickedImage2,
                                           selectedType,
-                                          selecteCategory == ""
-                                              ? data
-                                                  .homePageData.categories[0].id
-                                              : selecteCategory,
+                                          selecteCategory,
                                           selectedSub,
                                           itemController.text,
-                                          pickedImage2,
-                                          descController.text,
-
+                                          descController.text==null?"":descController.text,
                                           locationController.text,
-                                          itemMobileController.text,
                                           numberController.text,
                                           lat == "" ? "0000" : lat.toString(),
                                           lng == "" ? "0000" : lng.toString(),
                                           context);
+                                      // data.signUpData(
+                                      //     widget.number,
+                                      //     pickedImage,
+                                      //     nameController.text,
+                                      //     selectedType,
+                                      //     selecteCategory == ""
+                                      //         ? data
+                                      //             .homePageData.categories[0].id
+                                      //         : selecteCategory,
+                                      //     selectedSub,
+                                      //     itemController.text,
+                                      //     pickedImage2,
+                                      //     descController.text,
+
+                                      //     locationController.text,
+                                      //     numberController.text,
+                                      //     lat == "" ? "0000" : lat.toString(),
+                                      //     lng == "" ? "0000" : lng.toString(),
+                                      //     context);
                                     }
                                   },
                                   child: Container(
@@ -645,7 +550,7 @@ class _RegisterFormState extends State<RegisterForm> {
                                         color: Color(0xff39C7A5)),
                                     child: Center(
                                         child: Text(
-                                      'Finish',
+                                      'Save',
                                       style: TextStyle(
                                           fontSize: 16.0,
                                           fontWeight: FontWeight.bold,

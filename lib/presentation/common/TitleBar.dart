@@ -22,24 +22,8 @@ class _TitleBarState extends State<TitleBar> {
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
-                  children: [ GestureDetector(
-                    // iconSize: 30,
-                    child: GestureDetector(
-                      onTap: (){
-                        Navigator.pop(context);
-                      },
-                      child: const Icon(Icons.arrow_back,size: 30,)),
-                    onTap: () {
-                       Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => Profile(
-                       
-                        ),
-                      ),
-                    );
-                    },
-                  ),  Padding(
+                  children: [
+                       Padding(
                     padding: EdgeInsets.only(left: 8),
                     child: Text(
                     widget.title,
@@ -47,18 +31,7 @@ class _TitleBarState extends State<TitleBar> {
                                   ),
                   ),],                  
                 ),
-                // Row(
-                //   children: [
-                //     Icon(
-                //       Icons.place,
-                //       color: Color.fromRGBO(153, 157, 160, 1),
-                //     ),
-                //     Text(
-                //       "Sulthan Bathery, Wayanad",
-                //       style: TextStyle(color: Color(0xff999DA0)),
-                //     )
-                //   ],
-                // )
+          
               ],
             ),
             GestureDetector(

@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+
 import 'package:one_touch/presentation/pages/Classifieds.dart';
 import 'package:one_touch/presentation/pages/Contacts.dart';
 import 'package:one_touch/presentation/pages/Dashboard.dart';
 import 'package:one_touch/presentation/pages/Emergency.dart';
-import 'package:one_touch/presentation/pages/News.dart';
+
 import 'package:one_touch/presentation/pages/Notifications.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:one_touch/presentation/pages/News.dart';
+
 
 class BottomBarSelectingScreen extends StatefulWidget {
   const BottomBarSelectingScreen({Key? key}) : super(key: key);
@@ -22,7 +25,7 @@ class _BottomBarSelectingScreenState extends State<BottomBarSelectingScreen> {
   final List<Widget> _chilren = [
     Dashboard(),
     Emergency(),
-    Notifications(),
+    News(),
     Contacts(),
     Classifieds(),
   ];

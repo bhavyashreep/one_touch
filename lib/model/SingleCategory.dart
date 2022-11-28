@@ -104,25 +104,25 @@ class Item {
     required this.whatsappNumber,
   });
 
-  String collectionId;
-  String collectionName;
-  String category;
+  dynamic collectionId;
+  dynamic collectionName;
+  dynamic category;
   DateTime created;
-  String facebook;
-  String id;
-  String image;
+  dynamic facebook;
+  dynamic id;
+  dynamic image;
   bool isPaid;
   dynamic lat;
-  String location;
-  String long;
-  String longDescription;
-  String name;
-  String phoneNumber;
-  String shortDescription;
-  String subCategory;
+  dynamic location;
+  dynamic long;
+  dynamic longDescription;
+  dynamic name;
+  dynamic phoneNumber;
+  dynamic shortDescription;
+  dynamic subCategory;
   DateTime updated;
-  String website;
-  String whatsappNumber;
+  dynamic website;
+  dynamic whatsappNumber;
 
   factory Item.fromJson(Map<String, dynamic> json) => Item(
         collectionId: json["@collectionId"],
