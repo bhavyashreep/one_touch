@@ -67,6 +67,14 @@
           }
         },
         {
+          "client_id": "1025924095619-hmc7ru2gsk4bb1tsu911urlont8tv0eg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "in.onetouch.one_touch",
+            "certificate_hash": "a20bb1ef07340158ee13071370e24e078932ee6b"
+          }
+        },
+        {
           "client_id": "1025924095619-bjkhvcd85ibnfd2g01k27hv44355pkif.apps.googleusercontent.com",
           "client_type": 3
         }
